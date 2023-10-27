@@ -1,18 +1,24 @@
 const submitButton = document.querySelector(".button-primary")
 const deleteButton = document.querySelector("#delete-button")
 const messageListDiv = document.querySelector("#lista-mensajes")
+
+if (!(localStorage.getItem("messages"))){
+    localStorage.setItem("messages", JSON.stringify([]))
+}
+
 const storedMessages = JSON.parse(localStorage.getItem("messages"))
 const messageList = document.createElement("ul")
+
+document.addEventListener("DOMContentLoaded", () =>{
+    addAllMessagesToPage(storedMessages)
+})
+
 submitButton.addEventListener("click", () => {
   event.preventDefault()
   const message = document.querySelector("#mensaje").value
   storedMessages.push(message)
   localStorage.setItem("messages", JSON.stringify(storedMessages))
   addMessageToPage(message)
-})
-
-document.addEventListener("DOMContentLoaded", () =>{
-    addAllMessagesToPage(storedMessages)
 })
 
 deleteButton.addEventListener("click", () =>{
@@ -34,9 +40,12 @@ const addAllMessagesToPage = (storedMessages) =>{
 }
 
 const deleteMessages = () =>{
-    messageListDiv.firstChild.remove()
-    while (storedMessages.length > 0) {
-        storedMessages.pop();
+    while (messageList.firstChild){
+        messageList.firstChild.remove()
+        console.log(messageList)
     }
-    localStorage.setItem("messages", JSON.stringify([]))
+    while (storedMessages.length > 0) {
+        storedMessages.pop()
+    }
+    localStorage.setItem("messages", JSON.stringify(storedMessages))
 }
