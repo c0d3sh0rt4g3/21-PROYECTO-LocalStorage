@@ -42,10 +42,9 @@ const addAllMessagesToPage = (storedMessages) =>{
 const deleteMessages = () =>{
     while (messageList.firstChild){
         messageList.firstChild.remove()
-        console.log(messageList)
     }
     while (storedMessages.length > 0) {
         storedMessages.pop()
     }
-    localStorage.setItem("messages", JSON.stringify(storedMessages))
+    localStorage.removeItem("messages")
 }
